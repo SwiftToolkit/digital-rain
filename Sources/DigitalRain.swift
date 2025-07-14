@@ -20,7 +20,7 @@ class DigitalRain {
     private func start() {
         Terminal.showCursor(false)
 
-        timerTask = repeatingTimer(interval: Self.refreshInterval) {
+        timerTask = Task.repeatingTimer(interval: Self.refreshInterval) {
             self.updateLines()
             self.draw()
         }
@@ -32,18 +32,6 @@ class DigitalRain {
         }
 
         RunLoop.main.run()
-    }
-
-    func repeatingTimer(
-        interval: TimeInterval,
-        operation: @escaping @MainActor () -> Void
-    ) -> Task<Void, Never> {
-        Task.detached {
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .milliseconds(interval * 1_000))
-                await operation()
-            }
-        }
     }
 
     private func updateLines() {

@@ -1,5 +1,6 @@
 import Foundation
 import ColorizeSwift
+import TerminalUtilities
 
 @main
 class DigitalRain {
@@ -23,10 +24,10 @@ class DigitalRain {
             self.draw()
         }
 
-        signal(SIGINT, SIG_IGN)
-        let sigIntSource = DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
-        sigIntSource.setEventHandler(qos: .default, flags: [], handler: quit)
-        sigIntSource.resume()
+        Terminal.onInterruptionExit {
+            Terminal.eraseChars(self.drawnLength)
+            Terminal.showCursor(true)
+        }
 
         RunLoop.main.run()
     }
@@ -67,7 +68,7 @@ class DigitalRain {
     }
 
     private func draw() {
-        Terminal.clearChars(drawnLength)
+        Terminal.eraseChars(drawnLength)
 
         var result = ""
         for row in 0..<size.height {
@@ -105,10 +106,6 @@ class DigitalRain {
 
         print(result, terminator: "")
         drawnLength = result.count
-    }
-
-    private func quit() {
-        Terminal.quit(clearing: drawnLength)
     }
 }
 

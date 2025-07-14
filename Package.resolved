@@ -1,5 +1,5 @@
 {
-  "originHash" : "04bca236581aee372d4fbcb86a87a212bd08cf4d453a1bc653dc84fde7aef525",
+  "originHash" : "abba3a4e4dc104cb6a92990664efcde721ee94dbe79a4af405b387dcb5015d6d",
   "pins" : [
     {
       "identity" : "colorizeswift",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "4e7daa138510b77a3cce9f6a31a116f8536347dd",
         "version" : "1.7.0"
+      }
+    },
+    {
+      "identity" : "terminal-utilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swifttoolkit/terminal-utilities.git",
+      "state" : {
+        "revision" : "945bbc4de8d833af39da8875ad7b9f66e676a174",
+        "version" : "0.1.0"
       }
     }
   ],

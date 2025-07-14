@@ -9,13 +9,15 @@ let package = Package(
         .macOS(.v14)
     ],
     dependencies: [
-        .package(url: "https://github.com/mtynior/ColorizeSwift.git", from: "1.7.0")
+        .package(url: "https://github.com/mtynior/ColorizeSwift.git", from: "1.7.0"),
+        .package(url: "https://github.com/swifttoolkit/terminal-utilities.git", from: "0.1.0")
     ],
     targets: [
         .executableTarget(
             name: "digital-rain",
         dependencies: [
-            .product(name: "ColorizeSwift", package: "colorizeswift")
+            .product(name: "ColorizeSwift", package: "colorizeswift"),
+            .product(name: "TerminalUtilities", package: "terminal-utilities")
         ]),
     ]
 )

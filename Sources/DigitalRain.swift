@@ -3,10 +3,11 @@ import ColorizeSwift
 import TerminalUtilities
 
 @main
+@MainActor
 class DigitalRain {
     static let refreshInterval: TimeInterval = 0.08
 
-    var timer: Timer?
+    var timerTask: Task<Void, Never>?
     var lines: [Int: [Line]] = [:]
     var drawnLength = 0
 
@@ -19,17 +20,30 @@ class DigitalRain {
     private func start() {
         Terminal.showCursor(false)
 
-        timer = Timer.scheduledTimer(withTimeInterval: Self.refreshInterval, repeats: true) { _ in
+        timerTask = repeatingTimer(interval: Self.refreshInterval) {
             self.updateLines()
             self.draw()
         }
 
         Terminal.onInterruptionExit {
+            self.timerTask?.cancel()
             Terminal.eraseChars(self.drawnLength)
             Terminal.showCursor(true)
         }
 
         RunLoop.main.run()
+    }
+
+    func repeatingTimer(
+        interval: TimeInterval,
+        operation: @escaping @MainActor () -> Void
+    ) -> Task<Void, Never> {
+        Task.detached {
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .milliseconds(interval * 1_000))
+                await operation()
+            }
+        }
     }
 
     private func updateLines() {

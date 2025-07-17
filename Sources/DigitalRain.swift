@@ -7,31 +7,30 @@ import TerminalUtilities
 class DigitalRain {
     static let refreshInterval: TimeInterval = 0.08
 
-    var timerTask: Task<Void, Never>?
+    let size = Terminal.size()
+
     var lines: [Int: [Line]] = [:]
     var drawnLength = 0
 
-    static func main() {
-        DigitalRain().start()
+    static func main() async {
+        await DigitalRain().start()
     }
 
-    let size = Terminal.size()
-
-    private func start() {
+    private func start() async {
         Terminal.showCursor(false)
 
-        timerTask = Task.repeatingTimer(interval: Self.refreshInterval) {
+        let timerTask = Task.repeatingTimer(interval: Self.refreshInterval) {
             self.updateLines()
             self.render()
         }
 
         Terminal.onInterruptionExit {
-            self.timerTask?.cancel()
+            timerTask.cancel()
             Terminal.eraseChars(self.drawnLength)
             Terminal.showCursor(true)
         }
 
-        RunLoop.main.run()
+        await timerTask.value
     }
 
     private func updateLines() {

@@ -22,7 +22,7 @@ class DigitalRain {
 
         timerTask = Task.repeatingTimer(interval: Self.refreshInterval) {
             self.updateLines()
-            self.draw()
+            self.render()
         }
 
         Terminal.onInterruptionExit {
@@ -69,7 +69,7 @@ class DigitalRain {
         )
     }
 
-    private func draw() {
+    private func render() {
         Terminal.eraseChars(drawnLength)
 
         var result = ""

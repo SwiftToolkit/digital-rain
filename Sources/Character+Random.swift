@@ -2,13 +2,9 @@ import Foundation
 
 extension Character {
     static func randomArray(length: Int) -> [Character] {
-        var result = [Character]()
-
-        while result.count < length {
-            result.append(availableCharacters.randomElement()!)
+        (0..<length).map { _ in
+            availableCharacters.randomElement()!
         }
-
-        return result
     }
 }
 

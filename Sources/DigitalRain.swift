@@ -5,8 +5,6 @@ import TerminalUtilities
 @main
 @MainActor
 class DigitalRain {
-    static let refreshInterval: TimeInterval = 0.08
-
     let size = Terminal.size()
 
     var lines: [Int: [Line]] = [:]
@@ -19,7 +17,7 @@ class DigitalRain {
     private func start() async {
         Terminal.showCursor(false)
 
-        let timerTask = Task.repeatingTimer(interval: Self.refreshInterval) {
+        let timerTask = Task.repeatingTimer(interval: 0.08) {
             self.updateLines()
             self.render()
         }
@@ -35,7 +33,7 @@ class DigitalRain {
 
     private func updateLines() {
         for column in 0..<size.width {
-            var thisColumnLines = lines[column] ?? []
+            var thisColumnLines = lines[column, default: []]
             let shouldAddNewLine = if let minLine = thisColumnLines.minLine, minLine.minY < 0 {
                 false
             } else {
@@ -51,7 +49,7 @@ class DigitalRain {
             thisColumnLines.removeAll(where: \.shouldBeRemoved)
 
             if shouldAddNewLine {
-                let line = createLine(height: Int.random(in: 5..<min(10, size.height)))
+                let line = createLine(height: Int.random(in: 5..<10))
                 thisColumnLines.append(line)
             }
 
@@ -62,7 +60,7 @@ class DigitalRain {
     private func createLine(height: Int) -> Line {
         Line(
             letters: Character.randomArray(length: height),
-            duration: TimeInterval.random(in: 1...(Double(size.height + height) * Self.refreshInterval)),
+            duration: TimeInterval.random(in: 1...5),
             appearedAt: Date(),
             maxY: 0
         )

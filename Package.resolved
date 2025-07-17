@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swifttoolkit/terminal-utilities.git",
       "state" : {
-        "revision" : "945bbc4de8d833af39da8875ad7b9f66e676a174",
-        "version" : "0.1.0"
+        "revision" : "e5a4a1639f9cb95fed821ea2bfc02fa92fc31981",
+        "version" : "0.2.0"
       }
     }
   ],

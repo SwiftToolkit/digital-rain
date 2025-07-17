@@ -12,16 +12,20 @@ extension Line {
         maxY - letters.count
     }
 
+    var timeSinceAppearance: TimeInterval {
+        Date().timeIntervalSince(appearedAt)
+    }
+
     var shouldBeRemoved: Bool {
-        Date().timeIntervalSince(appearedAt) >= duration
+        timeSinceAppearance >= duration
     }
 
     var shouldDimHalfEnd: Bool {
-        ((duration / 4)..<(duration / 2)).contains(Date().timeIntervalSince(appearedAt))
+        timeSinceAppearance >= duration * 0.25
     }
 
     var shouldDim: Bool {
-        Date().timeIntervalSince(appearedAt) >= duration / 1.5
+        timeSinceAppearance >= duration * 0.65
     }
 }
 

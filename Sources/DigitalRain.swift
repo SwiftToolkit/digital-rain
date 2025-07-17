@@ -74,32 +74,31 @@ class DigitalRain {
             for column in 0..<size.width {
                 let thisColumnLines = lines[column] ?? []
 
-                if let line = thisColumnLines.line(at: row) {
-                    let indexInArray = row - line.minY
-                    let char = line.letters[indexInArray]
-                    var asString = String(char)
-                    let isFirst = indexInArray == line.letters.count - 1
-
-                    let color: TerminalColor = if isFirst {
-                        .white
-                    } else {
-                        .green
-                    }
-
-                    asString = asString.foregroundColor(color)
-
-                    let isEndHalf = indexInArray < (line.letters.count / 2)
-
-                    let shouldDim = isEndHalf && line.shouldDimHalfEnd || line.shouldDim
-
-                    if shouldDim {
-                        asString = asString.dim()
-                    }
-
-                    result.append(asString)
-                } else {
+                guard let line = thisColumnLines.line(at: row) else {
                     result.append(" ")
+                    continue
                 }
+
+                let indexInArray = line.maxY - row - 1
+                let char = line.letters[indexInArray]
+                var asString = String(char)
+                let isFirst = indexInArray == 0
+
+                let color: TerminalColor = if isFirst {
+                    .white
+                } else {
+                    .green
+                }
+
+                asString = asString.foregroundColor(color)
+
+                let isEndHalf = indexInArray > (line.letters.count / 2)
+
+                if (isEndHalf && line.shouldDimHalfEnd) || line.shouldDim {
+                    asString = asString.dim()
+                }
+
+                result.append(asString)
             }
         }
 

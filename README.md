@@ -4,6 +4,8 @@ A Swift command-line application that creates the iconic "digital rain" effect f
 
 Check the [full post at SwiftToolkit.dev](https://SwiftToolkit.com/posts/lb-digital-rain) to learn more about the implementation.
 
+![The article cover](./article-cover.gif)
+
 ## Features
 
 The application creates a full-screen effect where:
